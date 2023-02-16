@@ -16,6 +16,6 @@ export class AppComponent {
     &scope=user_profile,user_media`;
 
   ngOnInit() {
-    this.location.go(this.authorizeWindowUrl);
+    window.location.replace(this.authorizeWindowUrl);
   }
 }
