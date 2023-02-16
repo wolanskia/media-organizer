@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent {
   authorizeWindowUrl = `https://api.instagram.com/oauth/authorize
     ?client_id=1861484840866990,
-    &redirect_uri=https://oddwoods.netlify.app/auth/,
+    &redirect_uri=https://oddwoods.netlify.app/auth,
     &response_type=code,
     &scope=user_profile,user_media`;
 }
