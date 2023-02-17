@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { AuthComponent } from './auth.component';
-import { SafePipe } from './safe.pipe';
+import { UserContextGuard } from './user-context.guard';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [AuthComponent, SafePipe],
-  exports: [AuthComponent, SafePipe],
+  declarations: [AuthComponent],
+  providers: [UserContextGuard],
+  exports: [AuthComponent],
 })
 export class AuthModule {}
