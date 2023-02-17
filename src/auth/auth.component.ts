@@ -15,7 +15,7 @@ export class AuthComponent {
   authorizeWindowUrl = `https://api.instagram.com/oauth/authorize?client_id=1254574731831152&redirect_uri=https://oddwoods.netlify.app/auth&response_type=code&scope=user_profile,user_media`;
 
   ngOnInit() {
-    this.route.params.subscribe((params: Params) => {
+    this.route.queryParams.subscribe((params: Params) => {
       console.log(params);
       this.sessionService.authCode = params['code'];
     });
