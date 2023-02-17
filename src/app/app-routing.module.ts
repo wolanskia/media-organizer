@@ -7,13 +7,18 @@ import { ListComponent } from 'src/list/list.component';
 
 const routes: Routes = [
   {
-    path: 'auth',
-    component: AuthComponent,
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'collections',
   },
   {
-    path: '',
+    path: 'collections',
     component: ListComponent,
     canActivate: [UserContextGuard],
+  },
+  {
+    path: 'auth',
+    component: AuthComponent,
   },
 ];
 
