@@ -10,15 +10,8 @@ export class SessionService {
     userId: '',
   });
 
-  get authCode() {
-    return this._session.getValue().code;
-  }
-
-  set authCode(code: string) {
-    this._session.next({
-      ...this._session.getValue(),
-      code,
-    });
+  get userSession() {
+    return this._session.getValue();
   }
 
   setUserSession(session: Partial<UserSession>) {

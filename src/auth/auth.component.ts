@@ -25,7 +25,7 @@ export class AuthComponent {
         .subscribe((session) => this.sessionService.setUserSession(session));
     });
 
-    if (!this.sessionService.authCode) {
+    if (!this.sessionService.userSession.accessToken) {
       window.location.replace(this.authorizeWindowUrl);
     } else {
       this.router.navigate(['../'], { relativeTo: this.route });
