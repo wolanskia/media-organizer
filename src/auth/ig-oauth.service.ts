@@ -3,14 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
 import { clientId, redirectUri, UserSession } from './constants';
-import { SessionService } from './session.service';
 
 @Injectable({ providedIn: 'root' })
 export class IgOAuthService {
-  constructor(
-    private http: HttpClient,
-    private sessionService: SessionService
-  ) {}
+  constructor(private http: HttpClient) {}
 
   getAccessToken(authCode: string): Observable<UserSession> {
     return this.http
