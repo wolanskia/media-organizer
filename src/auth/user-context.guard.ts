@@ -7,7 +7,7 @@ import { SessionService } from './session.service';
 export class UserContextGuard implements CanActivate {
   constructor(private session: SessionService, private router: Router) {}
   canActivate(): boolean | UrlTree {
-    if (this.session.authCode) {
+    if (this.session.userSession.accessToken) {
       return true;
     }
 
