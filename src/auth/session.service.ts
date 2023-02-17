@@ -9,6 +9,7 @@ export class SessionService {
   }
 
   set authCode(code: string) {
+    console.log(`auth code: ${code}`);
     this._authorizationCode = code;
   }
 }
