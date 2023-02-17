@@ -12,15 +12,21 @@ export class IgOAuthService {
 
   getAccessToken(authCode: string) {
     return this.http
-      .post<Partial<UserSession>>('api/oauth/access_token', {
-        client_id: clientId,
-        client_secret: '7f42852a3ea0d244d9109d60c0c381b2',
-        code: authCode,
-        grant_type: 'authorization_code',
-        redirect_uri: redirectUri,
-      })
-      .subscribe((response: Partial<UserSession>) =>
-        this.sessionService.setUserSession(response)
+      .post<{ access_token: string; user_id: string }>(
+        'api/oauth/access_token',
+        {
+          client_id: clientId,
+          client_secret: '7f42852a3ea0d244d9109d60c0c381b2',
+          code: authCode,
+          grant_type: 'authorization_code',
+          redirect_uri: redirectUri,
+        }
+      )
+      .subscribe((response) =>
+        this.sessionService.setUserSession({
+          accessToken: response['access_token'],
+          userId: response['user_id'],
+        })
       );
   }
 }
