@@ -26,7 +26,7 @@ export class AuthComponent {
       .pipe(
         takeUntil(this.destroy$),
         switchMap((params: Params) =>
-          this.authService.getAccessToken(params['code'])
+          this.authService.getAccessToken(`${params['code']}#_`)
         )
       )
       .subscribe((session) => {
