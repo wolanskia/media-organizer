@@ -6,12 +6,12 @@ import { ListComponent } from 'src/list/list.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: ListComponent,
-  },
-  {
     path: 'auth',
     component: AuthComponent,
+  },
+  {
+    path: '',
+    component: ListComponent,
   },
 ];
 
