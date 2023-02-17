@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { clientId, redirectUri } from './constants';
 import { SessionService } from './session.service';
 
 @Component({
@@ -9,19 +10,21 @@ import { SessionService } from './session.service';
 export class AuthComponent {
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private sessionService: SessionService
   ) {}
 
-  authorizeWindowUrl = `https://api.instagram.com/oauth/authorize?client_id=1254574731831152&redirect_uri=https://oddwoods.netlify.app/auth&response_type=code&scope=user_profile,user_media`;
+  authorizeWindowUrl = `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=user_profile,user_media`;
 
   ngOnInit() {
     this.route.queryParams.subscribe((params: Params) => {
-      console.log(params);
-      this.sessionService.authCode = params['code'];
+      this.sessionService.setUserSession({ code: params['code'] });
     });
 
     if (!this.sessionService.authCode) {
       window.location.replace(this.authorizeWindowUrl);
+    } else {
+      this.router.navigate(['../'], { relativeTo: this.route });
     }
   }
 }
