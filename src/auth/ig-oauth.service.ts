@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
+
 import { clientId, redirectUri, UserSession } from './constants';
 import { SessionService } from './session.service';
 
@@ -10,7 +12,7 @@ export class IgOAuthService {
     private sessionService: SessionService
   ) {}
 
-  getAccessToken(authCode: string) {
+  getAccessToken(authCode: string): Observable<UserSession> {
     return this.http
       .post<{ access_token: string; user_id: string }>(
         'api/oauth/access_token',
@@ -22,11 +24,12 @@ export class IgOAuthService {
           redirect_uri: redirectUri,
         }
       )
-      .subscribe((response) =>
-        this.sessionService.setUserSession({
+      .pipe(
+        map((response) => ({
+          code: authCode,
           accessToken: response['access_token'],
           userId: response['user_id'],
-        })
+        }))
       );
   }
 }
