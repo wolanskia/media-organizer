@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { filter, Subject, switchMap, takeUntil } from 'rxjs';
 import { clientId, redirectUri } from './constants';
 import { IgOAuthService } from './ig-oauth.service';
 import { SessionService } from './session.service';
@@ -9,6 +10,8 @@ import { SessionService } from './session.service';
   template: ``,
 })
 export class AuthComponent {
+  private destroy$ = new Subject<void>();
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -19,16 +22,30 @@ export class AuthComponent {
   authorizeWindowUrl = `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=user_profile,user_media`;
 
   ngOnInit() {
-    this.route.queryParams.subscribe((params: Params) => {
-      this.authService
-        .getAccessToken(params['code'])
-        .subscribe((session) => this.sessionService.setUserSession(session));
-    });
+    this.route.queryParams
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap((params: Params) =>
+          this.authService.getAccessToken(params['code'])
+        )
+      )
+      .subscribe((session) => {
+        this.sessionService.setUserSession(session);
+        this.router.navigate(['../'], { relativeTo: this.route });
+      });
 
-    if (!this.sessionService.userSession.accessToken) {
-      window.location.replace(this.authorizeWindowUrl);
-    } else {
-      this.router.navigate(['../'], { relativeTo: this.route });
-    }
+    this.route.queryParams
+      .pipe(
+        filter((params) => !params['code']),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        window.location.replace(this.authorizeWindowUrl);
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
