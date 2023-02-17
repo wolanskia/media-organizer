@@ -16,6 +16,7 @@ export class AuthComponent {
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
+      console.log(params);
       this.sessionService.authCode = params['code'];
     });
 
