@@ -16,20 +16,27 @@ export class IgOAuthService {
       redirect_uri: redirectUri,
     };
 
+    const formData = new FormData();
+    formData.append('client_id', `${body.client_id}`);
+    formData.append('client_secret', body.client_secret);
+    formData.append('code', authCode);
+    formData.append('grant_type', body.grant_type);
+    formData.append('redirect_uri', redirectUri);
+
     const response = await fetch(
       `https://api.instagram.com/oauth/access_token`,
       {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
+        mode: 'no-cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         credentials: 'same-origin', // include, *same-origin, omit
         headers: {
-          'Content-Type': 'application/json',
-          // 'Content-Type': 'application/x-www-form-urlencoded',
+          // 'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         redirect: 'follow', // manual, *follow, error
         referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(body), // body data type must match "Content-Type" header
+        body: formData, // body data type must match "Content-Type" header
       }
     );
 
