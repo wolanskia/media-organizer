@@ -18,8 +18,7 @@ export class IgOAuthService {
           code: authCode,
           grant_type: 'authorization_code',
           redirect_uri: redirectUri,
-        },
-        { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+        }
       )
       .pipe(
         map((response) => ({
