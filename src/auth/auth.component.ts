@@ -30,13 +30,16 @@ export class AuthComponent {
         ),
         catchError((error) => {
           console.log(error);
-          return of(this.sessionService.userSession);
+          throw error;
         })
       )
-      .subscribe((session) => {
-        this.sessionService.setUserSession(session);
-        this.router.navigate(['../'], { relativeTo: this.route });
-      });
+      .subscribe(
+        (session) => {
+          this.sessionService.setUserSession(session);
+          this.router.navigate(['../'], { relativeTo: this.route });
+        },
+        (error) => console.log(error)
+      );
 
     this.route.queryParams
       .pipe(
