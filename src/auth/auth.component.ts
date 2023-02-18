@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { filter, Subject, switchMap, takeUntil } from 'rxjs';
+import { catchError, filter, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { clientId, redirectUri } from './constants';
 import { IgOAuthService } from './ig-oauth.service';
 import { SessionService } from './session.service';
@@ -27,7 +27,11 @@ export class AuthComponent {
         takeUntil(this.destroy$),
         switchMap((params: Params) =>
           this.authService.getAccessToken(`${params['code']}#_`)
-        )
+        ),
+        catchError((error) => {
+          console.log(error);
+          return of(this.sessionService.userSession);
+        })
       )
       .subscribe((session) => {
         this.sessionService.setUserSession(session);
