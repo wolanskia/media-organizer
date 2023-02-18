@@ -37,7 +37,7 @@ export class IgOAuthService {
       }
     );
 
-    return response.ok ? response.json() : response.text();
+    return response.ok ? response.json() : Promise.reject(response.statusText);
     // return this.http
     //   .post<{ access_token: string; user_id: string }>(
     //     'api/oauth/access_token',
