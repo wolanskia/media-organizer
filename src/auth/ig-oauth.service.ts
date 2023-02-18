@@ -27,7 +27,7 @@ export class IgOAuthService {
       `https://api.instagram.com/oauth/access_token`,
       {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'same-origin', // no-cors, *cors, same-origin
+        mode: 'no-cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         headers: {
           // 'Content-Type': 'application/json',
