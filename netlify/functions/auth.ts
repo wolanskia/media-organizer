@@ -19,7 +19,10 @@ const handler: Handler = async (
     redirect_uri: redirectUri,
   };
 
-  const response = await fetch(API_ENDPOINT, { body: JSON.stringify(body) });
+  const response = await fetch(API_ENDPOINT, {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
 
   if (response.ok) {
     const responseBody = (await response.json()) as {
