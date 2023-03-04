@@ -44,11 +44,9 @@ const handler: Handler = async (
     return {
       statusCode: 200,
       body: JSON.stringify({
-        data: {
-          accessToken: responseBody.access_token,
-          userId: responseBody.user_id,
-          code,
-        },
+        accessToken: responseBody.access_token,
+        userId: responseBody.user_id,
+        code,
       }),
     };
   }
