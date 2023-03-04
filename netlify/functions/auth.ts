@@ -19,11 +19,19 @@ const handler: Handler = async (
     redirect_uri: redirectUri,
   };
 
+  const params = new URLSearchParams();
+  params.append('client_id', `${body.client_id}`);
+  params.append('client_secret', body.client_secret);
+  params.append('code', body.code);
+  params.append('grant_type', body.grant_type);
+  params.append('redirect_uri', body.redirect_uri);
+
   const response = await fetch(API_ENDPOINT, {
     method: 'POST',
-    body: JSON.stringify(body),
+    body: params,
     headers: {
-      'Content-Type': 'application/json',
+      'content-type': 'application/x-www-form-urlencoded',
+      accept: 'application/json',
     },
   });
 
