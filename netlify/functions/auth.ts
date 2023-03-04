@@ -22,6 +22,9 @@ const handler: Handler = async (
   const response = await fetch(API_ENDPOINT, {
     method: 'POST',
     body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 
   if (response.ok) {
@@ -44,8 +47,10 @@ const handler: Handler = async (
 
   return {
     statusCode: response.status || 500,
+    statusText: response.statusText,
     body: JSON.stringify({
       error: response.statusText,
+      request: body,
     }),
   };
 };
