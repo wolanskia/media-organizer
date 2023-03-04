@@ -35,6 +35,7 @@ export class AuthComponent {
       )
       .subscribe(
         (session) => {
+          console.log(session);
           this.sessionService.setUserSession(session);
           this.router.navigate(['../'], { relativeTo: this.route });
         },
